@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MoedaService {
-  private apiUrl = 'http://localhost:3000/moedas';
+  private apiUrl = 'https://my-json-server.typicode.com/Tiago-msC/gestor-moedas/moedas';
 
   constructor(private http: HttpClient) { }
 

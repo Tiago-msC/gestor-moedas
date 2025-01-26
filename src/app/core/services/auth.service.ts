@@ -14,7 +14,7 @@ export class AuthService {
 
   signIn(data: Login): Observable<any> {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    return this.http.get("http://localhost:3000/usuarios", { headers, params: data as any }).pipe(
+    return this.http.get("https://my-json-server.typicode.com/Tiago-msC/gestor-moedas/usuarios", { headers, params: data as any }).pipe(
       map((response: any) => {
         if (Array.isArray(response) && response.length === 0) {
           throw new Error('No users found');
