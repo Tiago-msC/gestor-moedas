@@ -1,0 +1,41 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "email": "user@gmail.com",
+      "senha": "123456",
+      "nome": "Usuario Teste",
+      "guidEmpresa": "1234567890"
+    }
+  ],
+  "moedas": [
+    {
+      "id": "1",
+      "sigla": "AE2",
+      "nome": "Dirham dos Emirados Árabes Unidosxxx888",
+      "simbolo": "د.إ",
+      "codigo": 784
+    },
+    {
+      "id": "2",
+      "sigla": "EUR",
+      "nome": "Euro",
+      "simbolo": "€",
+      "codigo": 978
+    },
+    {
+      "id": "3",
+      "sigla": "USD",
+      "nome": "Dólar Americano",
+      "simbolo": "$",
+      "codigo": 840
+    },
+    {
+      "id": "4",
+      "sigla": "GBP",
+      "nome": "Libra Esterlina",
+      "simbolo": "£",
+      "codigo": 826
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>
+    <ng-container [ngSwitch]="data.mode">
+      <span *ngSwitchCase="'add'">Adicionar Moeda</span>
+      <span *ngSwitchCase="'edit'">Editar Moeda</span>
+      <span *ngSwitchCase="'view'">Visualizar Moeda</span>
+      <span *ngSwitchCase="'delete'">Excluir Moeda</span>
+      <span *ngSwitchDefault>Ação</span>
+    </ng-container>
+  </h2>
+
+  <mat-dialog-content>
+    <ng-container [ngSwitch]="data.mode">
+      <p *ngSwitchCase="'add'">Adicione uma nova moeda</p>
+      <p *ngSwitchCase="'edit'">Edite os dados da moeda</p>
+      <p *ngSwitchCase="'view'">Visualize os dados da moeda</p>
+      <p *ngSwitchCase="'delete'">Tem certeza que deseja excluir a moeda?</p>
+      <p *ngSwitchDefault>Ação</p>
+    </ng-container>
+
+    <form [formGroup]="moedaForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Sigla</mat-label>
+        <input matInput formControlName="sigla" />
+        <mat-error *ngIf="moedaForm.get('sigla')?.hasError('required')">A sigla é obrigatória.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" />
+        <mat-error *ngIf="moedaForm.get('nome')?.hasError('required')">O nome é obrigatório.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Simbolo</mat-label>
+        <input matInput formControlName="simbolo" />
+        <mat-error *ngIf="moedaForm.get('simbolo')?.hasError('required')">O símbolo é obrigatório.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="codigo" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="moedaForm.invalid" (click)="onSubmit()">Confirmar</button>
+  </mat-dialog-actions>
+</div>

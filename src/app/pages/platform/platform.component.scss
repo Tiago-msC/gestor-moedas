@@ -1,0 +1,109 @@
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #ccc;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.app-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.menu-header mat-icon {
+  margin-right: 8px;
+}
+
+mat-menu {
+  min-width: 200px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  .search-field {
+    width: 100%;
+    margin: 0 16px;
+  }
+
+  button {
+    position: relative;
+    bottom: 10px;
+  }
+}
+
+.moeda-list {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+  height: auto;
+
+  mat-list-item {
+    margin: 0;
+    padding: 0;
+    height: auto;
+  }
+}
+
+.moeda-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 16px;
+  border-bottom: 1px solid #b1b1b1;
+
+  .empty-list {
+    text-align: center;
+    padding: 16px;
+  }
+
+  .moeda-actions > button:nth-last-child(1) {
+    color: #e60202
+  }
+
+  .moeda-actions > button:nth-last-child(2) {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+
+// .moeda-item:last-child {
+//   border-bottom: none;
+// }
+

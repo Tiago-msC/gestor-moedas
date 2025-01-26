@@ -1,0 +1,86 @@
+<mat-toolbar>
+  <div class="toolbar-container">
+    <span class="app-title">Gestor de Moedas</span>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <div class="menu-header">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ userName }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Sair
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+
+<div class="container">
+  <div class="search-container">
+    <button mat-icon-button class="add-button" color="primary" (click)="actionDialog('add')">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Pesquisar Moedas</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        placeholder="Digite a sigla, nome ou símbolo da moeda"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="loading-container">
+    <mat-spinner *ngIf="loading()" diameter="50"></mat-spinner>
+  </div>
+  <mat-list *ngIf="!loading()" class="moeda-list">
+     @for (moeda of filteredMoedas(); track $index) {
+       <mat-list-item>
+         <div class="moeda-item">
+          <div class="moeda-info">
+            <div *ngIf="moeda.codigo" class="codigo">Código: {{ moeda.codigo }}</div>
+            <div>
+              <strong>{{ moeda.sigla }}</strong> - {{ moeda.nome }}
+              <span *ngIf="moeda.simbolo">({{ moeda.simbolo }})</span>
+            </div>
+          </div>
+          <div class="moeda-actions">
+            <button mat-icon-button (click)="actionDialog('view', moeda)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button (click)="actionDialog('edit', moeda)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="actionDialog('delete', moeda)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+       </mat-list-item>
+      } @empty {
+          <div class="moeda-item">
+            <div class="empty-list">Nenhuma moeda encontrada</div>
+          </div>
+      }
+    </mat-list>
+</div>
+
+
+<!-- <h2 mat-dialog-title>Hi</h2>
+<mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <mat-form-field>
+    <mat-label>Favorite Animal</mat-label>
+    <input matInput/>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button >No Thanks</button>
+  <button mat-button cdkFocusInitial>Ok</button>
+</mat-dialog-actions> -->
