@@ -27,13 +27,13 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Nome</mat-label>
-        <input matInput formControlName="nome" />
+        <input matInput formControlName="nome" [maxLength]="60" />
         <mat-error *ngIf="moedaForm.get('nome')?.hasError('required')">O nome é obrigatório.</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Simbolo</mat-label>
-        <input matInput formControlName="simbolo" />
+        <input matInput formControlName="simbolo" [maxLength]="15"/>
         <mat-error *ngIf="moedaForm.get('simbolo')?.hasError('required')">O símbolo é obrigatório.</mat-error>
       </mat-form-field>
 
