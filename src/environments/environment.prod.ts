@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://my-json-server.typicode.com/Tiago-msC/gestor-moedas',
+  serverUrl: 'https://json-server-vercel-five-tau.vercel.app',
 };
