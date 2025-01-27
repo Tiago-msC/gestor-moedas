@@ -54,11 +54,11 @@ export class ActionDialogComponent implements OnInit {
         [Validators.required, Validators.minLength(3), Validators.maxLength(60)],
       ],
       simbolo: [
-        data.moeda?.simbolo,
-        [Validators.required, Validators.pattern(/^([^\s,]+(,[^\s,]+)*)?$/)],
+        data.moeda?.simbolo || '',
+        [Validators.pattern(/^([^\s,]+(,[^\s,]+)*)?$/)],
       ],
       codigo: [
-        data.moeda?.codigo,
+        data.moeda?.codigo || '',
         [Validators.min(1), Validators.max(999)],
       ],
     });
