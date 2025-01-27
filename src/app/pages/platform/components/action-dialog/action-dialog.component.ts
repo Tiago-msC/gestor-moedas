@@ -1,21 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
   MatDialogRef,
   MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MoedaService } from '../../../../core/services/moeda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-action-dialog',
+  templateUrl: './action-dialog.component.html',
+  styleUrls: ['./action-dialog.component.scss'],
   imports: [
     CommonModule,
     MatDialogTitle,
@@ -25,32 +28,39 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
     MatDialogActions,
   ],
-  templateUrl: './action-dialog.component.html',
-  styleUrl: './action-dialog.component.scss',
 })
 export class ActionDialogComponent implements OnInit {
-
   moedaForm: FormGroup;
   mode: 'add' | 'edit' | 'delete' | 'view' = 'add';
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<MatDialogContent>,
+    public dialogRef: MatDialogRef<ActionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private moedaService: MoedaService,
     private snackBar: MatSnackBar,
   ) {
-
     this.moedaForm = this.fb.group({
       id: [data.moeda?.id],
-      sigla: [data.moeda?.sigla, Validators.required],
-      nome: [data.moeda?.nome, Validators.required],
-      simbolo: [data.moeda?.simbolo, Validators.required],
-      codigo: [data.moeda?.codigo],
+      guidEmpresa: [""],
+      sigla: [
+        data.moeda?.sigla,
+        [Validators.required, Validators.pattern(/^[A-Z]{3}$/)],
+      ],
+      nome: [
+        data.moeda?.nome,
+        [Validators.required, Validators.minLength(3), Validators.maxLength(60)],
+      ],
+      simbolo: [
+        data.moeda?.simbolo,
+        [Validators.required, Validators.pattern(/^([^\s,]+(,[^\s,]+)*)?$/)],
+      ],
+      codigo: [
+        data.moeda?.codigo,
+        [Validators.min(1), Validators.max(999)],
+      ],
     });
   }
 
@@ -63,44 +73,31 @@ export class ActionDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.moedaForm.valid || this.mode === 'delete') {
-      console.warn(this.moedaForm.value);
       const moeda = this.moedaForm.value;
 
-      if (this.mode === 'add') {
-        moeda.id = this.data?.nextIdMoeda || "1";
-        this.moedaService.addMoeda(moeda).subscribe({
-          next: (response) => {
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            this.snackBar.open('Erro ao adicionar moeda.', 'Fechar', { duration: 3000 });
-          },
-        });
-      } else if (this.mode === 'edit') {
-        this.moedaService.updateMoeda(moeda?.id, moeda).subscribe({
-          next: (response) => {
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            this.snackBar.open('Erro ao atualizar moeda.', 'Fechar', { duration: 3000 });
-          },
-        });
-      } else if (this.mode === 'delete') {
-        this.moedaService.deleteMoeda(moeda?.id).subscribe({
-          next: (response) => {
-            this.dialogRef.close(response);
-          },
-          error: (error) => {
-            this.snackBar.open('Erro ao deletar moeda.', 'Fechar', { duration: 3000 });
-          },
-        });
-      } else if (this.mode === 'view') {
-        this.dialogRef.close();
-      }
+      const actions = {
+        add: () => {
+          moeda.id = this.data?.nextIdMoeda || "1";
+          moeda.guidEmpresa = uuid();
+          this.moedaService.addMoeda(moeda).subscribe(this.handleResponse('adicionar'));
+        },
+        edit: () => this.moedaService.updateMoeda(moeda.id, moeda).subscribe(this.handleResponse('atualizar')),
+        delete: () => this.moedaService.deleteMoeda(moeda.id).subscribe(this.handleResponse('deletar')),
+        view: () => this.dialogRef.close(),
+      };
+
+      actions[this.mode]();
     }
   }
 
   onCancel() {
     this.dialogRef.close();
+  }
+
+  private handleResponse(action: string) {
+    return {
+      next: (response: any) => this.dialogRef.close(response),
+      error: () => this.snackBar.open(`Erro ao ${action} moeda.`, 'Fechar', { duration: 3000 }),
+    };
   }
 }

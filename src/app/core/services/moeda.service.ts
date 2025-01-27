@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MoedaService {
-  private apiUrl = 'https://my-json-server.typicode.com/Tiago-msC/gestor-moedas/moedas';
+  private apiUrl = environment.serverUrl + '/moedas';
 
   constructor(private http: HttpClient) { }
 

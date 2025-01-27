@@ -21,7 +21,7 @@
     <form [formGroup]="moedaForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline">
         <mat-label>Sigla</mat-label>
-        <input matInput formControlName="sigla" />
+        <input #sigla matInput formControlName="sigla" [maxlength]="3" (input)="moedaForm.get('sigla')?.setValue(sigla.value.toUpperCase())" />
         <mat-error *ngIf="moedaForm.get('sigla')?.hasError('required')">A sigla é obrigatória.</mat-error>
       </mat-form-field>
 

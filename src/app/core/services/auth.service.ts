@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Login } from '../../shared/interface/Login';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthService {
 
   signIn(data: Login): Observable<any> {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    return this.http.get("https://my-json-server.typicode.com/Tiago-msC/gestor-moedas/usuarios", { headers, params: data as any }).pipe(
+    return this.http.get(environment.serverUrl + "/usuarios", { headers, params: data as any }).pipe(
       map((response: any) => {
         if (Array.isArray(response) && response.length === 0) {
           throw new Error('No users found');

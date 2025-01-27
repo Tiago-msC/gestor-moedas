@@ -29,8 +29,10 @@
     <mat-form-field appearance="outline" class="search-field">
       <mat-label>Pesquisar Moedas</mat-label>
       <input
+        #search
         matInput
-        [(ngModel)]="searchTerm"
+        [value]="searchTerm()"
+        (input)="filterMoedas(search.value)"
         placeholder="Digite a sigla, nome ou símbolo da moeda"
       />
     </mat-form-field>

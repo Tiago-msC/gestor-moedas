@@ -17,10 +17,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { MoedaService } from '../../core/services/moeda.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}
-
 @Component({
   selector: 'app-platform',
   imports: [
@@ -44,17 +40,15 @@ export interface DialogData {
 export class PlatformComponent implements OnInit {
   userName: string = '';
 
-  searchTerm: string = '';
+  searchTerm: WritableSignal<string> = signal('');
   moedas: WritableSignal<any> = signal([]);
   loading: WritableSignal<boolean> = signal(false);
   nextIdMoeda = 0;
 
   filteredMoedas = computed(() => {
-    return this.moedas().filter((moeda: any) => {
-      return (
-        moeda.sigla.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        moeda.nome.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
+    const moedas = this.moedas();
+    return moedas.filter((moeda: any) => {
+      return moeda.nome.toLowerCase().includes(this.searchTerm().toLowerCase());
     });
   });
 
@@ -69,6 +63,10 @@ export class PlatformComponent implements OnInit {
   ngOnInit() {
     this.loadMoedas();
     this.getProfile();
+  }
+
+  filterMoedas(value: any) {
+    this.searchTerm.set(value);
   }
 
   private loadMoedas() {
